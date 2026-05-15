@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#FAFAFA">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="🔧 调试界面"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- 测试上传当前位置 -->
+    <Button
+        android:id="@+id/btnTestUpload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="📍 测试：上传当前位置"
+        android:backgroundTint="#FF9800"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- 手动输入经纬度 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="手动输入经纬度："
+        android:textSize="14sp"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/etLat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="纬度（如 23.123456）"
+        android:inputType="numberDecimal|numberSigned"
+        android:background="#FFFFFF"
+        android:padding="10dp"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/etLng"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="经度（如 113.234567）"
+        android:inputType="numberDecimal|numberSigned"
+        android:background="#FFFFFF"
+        android:padding="10dp"
+        android:layout_marginBottom="12dp"/>
+
+    <Button
+        android:id="@+id/btnManualUpload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="⬆ 上传手动输入的坐标（自动补充时间）"
+        android:backgroundTint="#673AB7"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- 调试日志 -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="调试日志："
+        android:textSize="13sp"
+        android:textColor="#666666"
+        android:layout_marginBottom="4dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#FFFFFF">
+
+        <TextView
+            android:id="@+id/tvDebugLog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="#333333"
+            android:fontFamily="monospace"
+            android:padding="8dp"/>
+    </ScrollView>
+
+</LinearLayout>

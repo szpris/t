@@ -1,0 +1,15 @@
+[Unit]
+Description=NasiTracker Location Server
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/opt/tracker
+ExecStart=/opt/tracker/venv/bin/python /opt/tracker/server.py
+Restart=always
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
