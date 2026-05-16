@@ -1,10 +1,12 @@
 package cn.nasi.tracker
 
 import android.app.*
+import android.content.Context
 import android.content.Intent
 import android.location.Location
 import android.os.IBinder
 import android.os.Looper
+import android.os.PowerManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.android.gms.location.*
@@ -29,6 +31,7 @@ class TrackerService : Service() {
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
     private var lastLocation: Location? = null
     private var lastUploadTime = 0L
+    private var wakeLock: PowerManager.WakeLock? = null
 
     // ─── LocationCallback ─────────────────────────────────────────────────────
     private val locationCallback = object : LocationCallback() {
@@ -64,6 +67,17 @@ class TrackerService : Service() {
         fusedClient    = LocationServices.getFusedLocationProviderClient(this)
         uploadManager  = UploadManager(this)
         createNotificationChannel()
+
+        // WakeLock：防止息屏后 CPU 暂停导致 MQTT 心跳超时
+        val pm = getSystemService(Context.POWER_SERVICE) as PowerManager
+        wakeLock = pm.newWakeLock(
+            PowerManager.PARTIAL_WAKE_LOCK,
+            "TrackerService:MqttWakeLock"
+        ).also {
+            it.setReferenceCounted(false)
+            it.acquire()
+        }
+        Log.i(TAG, "WakeLock acquired, MQTT connecting...")
 
         // 初始化 MQTT，常驻订阅（Service 存活期间始终连接）
         mqttManager = MqttManager(this) { payload ->
@@ -174,6 +188,11 @@ class TrackerService : Service() {
         fusedClient.removeLocationUpdates(oneShotCallback)
         mqttManager.disconnect()
         scope.cancel()
+        // 释放 WakeLock
+        wakeLock?.let {
+            if (it.isHeld) it.release()
+        }
+        wakeLock = null
         super.onDestroy()
     }
 
