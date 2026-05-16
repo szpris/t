@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'cn.nasi.tracker'
+    namespace 'com.gpstracker.app'
     compileSdk 34
 
     defaultConfig {
-        applicationId "cn.nasi.tracker"
+        applicationId "com.gpstracker.app"
         minSdk 26
         targetSdk 34
         versionCode 2

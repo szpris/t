@@ -3,89 +3,153 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="12dp"
-    android:background="#F5F5F5">
+    android:background="#1A1A2E"
+    android:padding="12dp">
 
-    <!-- 状态栏（连点5次进调试） -->
+    <!-- 第一行：追踪服务状态 -->
     <TextView
         android:id="@+id/tvStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="状态: 已停止  (连续点5次进调试)"
-        android:textSize="14sp"
-        android:textColor="#333333"
-        android:background="#FFFFFF"
-        android:padding="10dp"
-        android:layout_marginBottom="8dp"/>
+        android:text="○ 已停止  200米/2分钟"
+        android:textColor="#F44336"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:background="#16213E"
+        android:padding="12dp"
+        android:layout_marginBottom="4dp"/>
 
-    <!-- 当前位置信息 -->
+    <!-- 第二行：MQTT 连接状态 -->
     <TextView
-        android:id="@+id/tvCurrentLoc"
+        android:id="@+id/tvMqttStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="纬度: --\n经度: --\n精度: --\n时间: --"
-        android:textSize="14sp"
-        android:textColor="#222222"
-        android:background="#FFFFFF"
-        android:padding="10dp"
+        android:text="📡 MQTT 未连接"
+        android:textColor="#9E9E9E"
+        android:textSize="13sp"
+        android:background="#16213E"
+        android:padding="8dp"
         android:layout_marginBottom="8dp"/>
 
-    <!-- 操作按钮 -->
+    <!-- 第三行：启动/停止/刷新按钮 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center"
         android:layout_marginBottom="8dp">
 
         <Button
             android:id="@+id/btnStart"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            android:text="▶ 启动追踪"
+            android:text="启动"
+            android:textSize="14sp"
             android:backgroundTint="#4CAF50"
-            android:textColor="#FFFFFF"
-            android:layout_marginEnd="4dp"/>
+            android:layout_marginEnd="6dp"/>
 
         <Button
             android:id="@+id/btnStop"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            android:text="■ 停止追踪"
+            android:text="停止"
+            android:textSize="14sp"
             android:backgroundTint="#F44336"
-            android:textColor="#FFFFFF"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"/>
+            android:enabled="false"
+            android:layout_marginEnd="6dp"/>
 
         <Button
             android:id="@+id/btnRefresh"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_weight="1"
-            android:text="↻ 刷新"
-            android:backgroundTint="#2196F3"
-            android:textColor="#FFFFFF"
-            android:layout_marginStart="4dp"/>
+            android:text="刷新"
+            android:textSize="14sp"
+            android:backgroundTint="#2196F3"/>
     </LinearLayout>
 
-    <!-- 记录列表标题 -->
-    <TextView
+    <!-- 第四行：调试/设置按钮 -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="最近20笔记录（✓已上传  …待上传）"
-        android:textSize="13sp"
-        android:textColor="#666666"
-        android:layout_marginBottom="4dp"/>
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="12dp">
 
-    <!-- 记录列表 -->
-    <ListView
-        android:id="@+id/lvRecords"
+        <Button
+            android:id="@+id/btnDebug"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:text="调试"
+            android:textSize="13sp"
+            android:backgroundTint="#9C27B0"
+            android:layout_marginEnd="6dp"/>
+
+        <Button
+            android:id="@+id/btnSettings"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:text="设置"
+            android:textSize="13sp"
+            android:backgroundTint="#FF9800"/>
+    </LinearLayout>
+
+    <!-- 当前位置信息 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#16213E"
+        android:padding="12dp"
+        android:layout_marginBottom="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📍 当前位置"
+            android:textColor="#E94560"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="6dp"/>
+
+        <TextView
+            android:id="@+id/tvCurrentLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="暂无位置数据"
+            android:textColor="#CCCCCC"
+            android:textSize="13sp"
+            android:lineSpacingExtra="2dp"/>
+    </LinearLayout>
+
+    <!-- 最近数据列表 -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#FFFFFF"
-        android:divider="#E0E0E0"
-        android:dividerHeight="1dp"/>
+        android:orientation="vertical"
+        android:background="#16213E"
+        android:padding="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="📋 最近20条数据"
+            android:textColor="#E94560"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="6dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scrollbars="vertical"/>
+    </LinearLayout>
 
 </LinearLayout>
